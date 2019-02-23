@@ -30,7 +30,6 @@
                             <th scope="col">Price</th>
                             <th scope="col">Stock</th>
                             <th scope="col">Buy</th>
-                            <th scope="col"></th>
                           </tr>
                         </thead>
                         <tbody class="productList">
@@ -39,14 +38,28 @@
                                 <td>sports</td>
                                 <td>$5</td>
                                 <td>20</td>
-                                <td>[  ] Add</td>
+                                <td>
+                                    <div class="form-row">
+                                        <div class="col-2">
+                                          <input type="text" id="n${product.name}" class="form-control" placeholder="Qty">
+                                        </div>
+                                        <button type="submit" id="${product.name}" class="btn btn-primary add">Add</button>
+                                   </div>
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row">bat</th>
                                 <td>sports</td>
                                 <td>$15</td>
                                 <td>10</td>
-                                <td>[  ] Add</td>
+                                <td>
+                                    <div class="form-row">
+                                        <div class="col-2">
+                                          <input type="text" id="n${index.toString()}" class="form-control" placeholder="Qty">
+                                        </div>
+                                        <button type="submit" id="${index.toString()}" class="btn btn-primary updateSubmit">Add</button>
+                                   </div>
+                                </td>
                             </tr>
                         </tbody>
                       </table>

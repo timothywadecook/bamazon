@@ -1,20 +1,28 @@
 // Dependencies
 const express = require('express');
-const path = require('path');
-
+const PORT = 8080;
 
 // Create the server
 const app = express();
 
-// Middleware and parsing
+// Require our models for syncing (grabs models/index.js which in turn grabs all models and returns object)
+const db = require('./models');
 
-// Auto-route the public directory
+// Middleware (i.e. for data parsing POST requests)
+app.use(express.urlencoded({ extended: true })); // parse application/x-www-form-urlencoded
+app.use(express.json());// parse application/json
 
-// api-route 
+// Routes
+require('./routes/api-routes')(app);
+require('./routes/html-routes')(app);
 
 
-// Listen 
-const PORT = 8080;
-app.listen(PORT, () => {
-    console.log('Listening on port ', PORT)
+
+// Syncing our sequelize models and then starting our Express app
+// =============================================================
+db.sequelize.sync({ force: true })
+.then(function() {
+    app.listen(PORT, function() {
+      console.log('App listening on PORT ' + PORT);
+    });
 });

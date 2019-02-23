@@ -21,5 +21,10 @@
   "bugs": {
     "url": "https://github.com/timothywadecook/bamazon/issues"
   },
-  "homepage": "https://github.com/timothywadecook/bamazon#readme"
+  "homepage": "https://github.com/timothywadecook/bamazon#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mysql": "^2.16.0",
+    "sequelize": "^4.42.0"
+  }
 }

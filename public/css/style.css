@@ -1,0 +1,38 @@
+#navTitle {
+    color: #3e4666;
+    text-align: center;
+    padding: 30px 10px;
+}
+#nav {
+    background-color: #F5F5F5;
+    height: 100vh;
+    padding: 0;
+}
+.nav-link {
+    color: #3e4666;
+    font-size: 20px;
+}
+
+.nav-pills > li > a.active {
+    background-color: #3e4666 !important;
+}
+.productTable, .cartTable {
+    color: #3e4666;
+}
+.btn-primary {
+    background-color:  #3e4666 !important;
+}
+.form-row {
+    padding: 10px;
+}
+
+
+/*  Make the main content area scrollable  */
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.overflow-scroll {
+    overflow: scroll;
+    height: 100vh;
+}

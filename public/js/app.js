@@ -1,18 +1,34 @@
-const render = function(productList){
-    $('#products').empty();
-    $('#cart').empty();
-    
-    for (let i = 0; i < productList.length; i++){
-      $('#products').append(`<div><h3>${productList[i].product_name}</h3><p>${productList[i].department_name}</p><p>Price: $${productList[i].price}</p><p>QTY: ${productList[i].stock_quantity}</p>
-      <form>
-      <input id="qty-req" placeholder="Amount" />
-      <button id="add-to-cart">Submit</button>
-      </form>
-      </div>`);
-    }
+
+// .....
+// Set the home page
+// ....
+const homePage = $('#nav').show(); 
+$('.cartTable').hide();
+
+
+const renderProductList = function(productList) {
+    $('.productList').empty();
 };
+
+const renderCart = function(cartList) {
+    $('.cartList').empty();
+    cartList.forEach(row => {
+        $('.cartBody').append(`
+        <tr>
+        <th scope="row">${product.product_name}</th>
+        <td>${product.price}</td>
+        <td>${product.cart_quantity}</td>
+        <td>${removebutton}</td>
+        </tr>
+        `);
+        
+
+    })
+}
+
+
   
-const getProducts = function(){
+const getProductList = function(){
 $.get('/api/productList')
 .then(function (productList){
     console.log(productList);
@@ -20,10 +36,9 @@ $.get('/api/productList')
 })
 };
 
-// there will be a duplicate of the above for rendering the shopping cart?... no should render at the same time. SPA. click should hide() 
 
   
-getProducts(); // get product list and render on page 
+// getProductList(); 
   
   
 //   const postArticle = function(event){
@@ -51,15 +66,13 @@ getProducts(); // get product list and render on page
 //   }
 
 const viewShop = function() {
-    // run get products... await get 
-    $('#cart').hide();
-    $('#products').show();
+    $('.cartTable').hide();
+    $('.productTable').show();
 };
 
 const viewCart = function() {
-    $('#products').hide();
-    $('#cart').show();
-
+    $('.productTable').hide();
+    $('.cartTable').show();
 };
 
 const runAddToCart = function() {
@@ -69,6 +82,6 @@ const runAddToCart = function() {
   // All add-to-cart button... onClick => runAddToCart()
   $('#add-to-cart-btn').on('click', runAddToCart);
   // view cart button... onClick => productList.hide(), cart.show()
-  $('#view-cart').on('click', viewCart)
+  $('#cartBtn').on('click', viewCart)
   // shop button... onClick => productList.show(),  cart.hide()
-  $('#view-shop').on('click', viewShop)
+  $('#shopBtn').on('click', viewShop)

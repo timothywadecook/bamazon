@@ -1,11 +1,30 @@
 
 // .....
-// Set the home page
+// Set the home page and navigation
 // ....
 const homePage = $('#nav').show(); 
 $('.cartTable').hide();
 $('#shopBtn').addClass('active')
 
+const viewShop = function() { 
+    $('.cartTable').hide();
+    $('.productTable').show();
+    $('.nav-link').removeClass('active');
+    $('#shopBtn').addClass('active')
+};
+
+const viewCart = function() {
+    $('.productTable').hide();
+    $('.cartTable').show();
+    $('.nav-link').removeClass('active');
+    $('#cartBtn').addClass('active')
+};
+
+
+
+// .....
+// Render lists
+// ....
 
 const renderProductList = function(productList) {
     $('.productList').empty();
@@ -44,6 +63,11 @@ const renderCart = function(cartList) {
 }
 
 
+
+
+// .....
+// Get data from API
+// ....
   
 const getProductList = function(){
 $.get('/api/productList')
@@ -53,6 +77,43 @@ $.get('/api/productList')
 })
 };
 
+const runAddToCart = function(e) {
+    e.preventDefault();
+    console.log("add btn clicked");
+    // save the input
+    const product = e.target;
+    console.log('\n\n e.target = ' + product + '\n\n');
+    const qty = $(`#i${product}`).val();
+    console.log(qty);
+    // get the product data .then check/update it 
+    $.get(`/api/:${product}`)
+    .then(function (productData){
+        console.log(productData);
+        // check and change 
+
+        // render just this one 
+    })
+};
+
+
+
+// .....
+// Add event listeners
+// ....
+  
+  // All add-to-cart button... onClick => runAddToCart()
+  $('.productList').on('click', '.add', runAddToCart);
+  // view cart button... onClick => productList.hide(), cart.show()
+  $('#cartBtn').on('click', viewCart)
+  // shop button... onClick => productList.show(),  cart.hide()
+  $('#shopBtn').on('click', viewShop)
+
+
+
+
+// .....
+// A few functions that may be useful
+// ....
 
 const checkStockQty = function(qty) { // takes in a qty and returns true if product qty is >= requested qty
     return qty <= this.stock_quantity;
@@ -72,70 +133,9 @@ const cartSubTotal = function() {
     return this.cart_quantity * this.price;
 };
 
+
+// .....
+// Initialize the data list on load
+// ....
   
 getProductList(); 
-  
-  
-//   const postArticle = function(event){
-//     event.preventDefault();
-  
-//     console.log('clicked')
-//     // Save the input in an object called 'article'
-//     const article = {
-//       title: $('#article-title').val().trim(),
-//       body: $('#article-body').val().trim()
-//     }
-  
-//     console.log('art', article)
-//     // POST the article object to /api/articles
-//     $.post('/api/articles', article)
-//       .then(function(data) {
-//         // After receiving a response, call getArticles
-//         getArticles();
-  
-//         // Blank our inputs after POST
-//         $('#article-title').val('');
-//         $('#article-body').val('');
-//       });
-  
-//   }
-
-const viewShop = function() {
-    $('.cartTable').hide();
-    $('.productTable').show();
-    $('.nav-link').removeClass('active');
-    $('#shopBtn').addClass('active')
-};
-
-const viewCart = function() {
-    $('.productTable').hide();
-    $('.cartTable').show();
-    $('.nav-link').removeClass('active');
-    $('#cartBtn').addClass('active')
-};
-
-const runAddToCart = function(e) {
-    e.preventDefault();
-    console.log("add btn clicked");
-    // save the input
-    const product = e.target.id.val();
-    console.log(product);
-    const qty = $(`#i${product}`).val();
-    console.log(qty);
-    // get the product data .then check/update it 
-    $.get(`/api/:${product}`)
-    .then(function (productData){
-        console.log(productData);
-        // check and change 
-
-        // render just this one 
-    })
-};
-
-  
-  // All add-to-cart button... onClick => runAddToCart()
-  $('.productList').on('click', '.add', runAddToCart);
-  // view cart button... onClick => productList.hide(), cart.show()
-  $('#cartBtn').on('click', viewCart)
-  // shop button... onClick => productList.show(),  cart.hide()
-  $('#shopBtn').on('click', viewShop)

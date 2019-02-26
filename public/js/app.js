@@ -73,7 +73,7 @@ const getProductList = function(){
 $.get('/api/productList')
 .then(function (productList){
     console.log(productList);
-    render(productList);
+    renderProductList(productList);
 })
 };
 
@@ -81,7 +81,7 @@ const runAddToCart = function(e) {
     e.preventDefault();
     console.log("add btn clicked");
     // save the input
-    const product = e.target;
+    const product = e.target.id;
     console.log('\n\n e.target = ' + product + '\n\n');
     const qty = $(`#i${product}`).val();
     console.log(qty);

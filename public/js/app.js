@@ -118,7 +118,7 @@ const runAddToCart = function(e) {
     e.preventDefault();
     console.log("add btn clicked");
     // save the input
-    const product = e.target.id;
+    const product = e.target.id.val();
     console.log(product);
     const qty = $(`#i${product}`).val();
     console.log(qty);

@@ -1,5 +1,5 @@
 // Require our models for syncing (grabs models/index.js which in turn grabs all models and returns object)
-const db = require('./models');
+const db = require('../models');
 
 const items = [
     {

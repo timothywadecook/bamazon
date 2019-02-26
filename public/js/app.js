@@ -82,7 +82,8 @@ const runAddToCart = function(e) {
     console.log("add btn clicked");
     // save the input
     const product = e.target.id;
-    console.log('\n\n e.target = ' + product + '\n\n');
+    console.log('\n\n button clicked for = ' + product + '\n\n');
+    console.log('qty id = ' + `#i${product}`);
     const qty = $(`#i${product}`).val();
     console.log(qty);
     // get the product data .then check/update it 

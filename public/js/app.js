@@ -38,9 +38,9 @@ const renderProductList = function(productList) {
         <td>
         <div class="form-row">
         <div class="col-2">
-        <input type="text" id="i${product.product_name}" class="form-control" placeholder="Qty">
+        <input type="text" id="i${product.id}" class="form-control" placeholder="Qty">
         </div>
-        <button type="submit" id="${product.product_name}"class="btn btn-primary add">Add</button>
+        <button type="submit" id="${product.id}"class="btn btn-primary add">Add</button>
         </div>
         </td>
         </tr>
@@ -73,19 +73,21 @@ const getProductList = function(){
 $.get('/api/productList')
 .then(function (productList){
     console.log(productList);
+    cachedProductList = productList;
     renderProductList(productList);
 })
 };
 
+// when add to cart is clicked
+// prevent default
+// store the request number in a variable called qty
+// if qty is less than of equal to stock_quantity 
 const runAddToCart = function(e) {
     e.preventDefault();
-    console.log("add btn clicked");
-    // save the input
-    const product = e.target.id;
-    console.log('\n\n button clicked for = ' + product + '\n\n');
-    console.log('qty id = ' + `#i${product}`);
-    const qty = $(`#i${product}`).val();
-    console.log(qty);
+    const productId = e.target.id;
+    const qty = $(`#i${productId}`).val();
+    console.log('does qty work?', qty + "\n\n");
+    console.log('does this work? = ',this.stock_quantity);
     // get the product data .then check/update it 
     $.get(`/api/:${product}`)
     .then(function (productData){
@@ -138,5 +140,5 @@ const cartSubTotal = function() {
 // .....
 // Initialize the data list on load
 // ....
-  
+const cachedProductList = [];
 getProductList(); 

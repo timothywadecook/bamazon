@@ -19,7 +19,7 @@ const viewCart = function() {
     $('.nav-link').removeClass('active');
     $('#cartBtn').addClass('active')
 };
-
+const cachedProductList = [];
 
 
 // .....
@@ -140,5 +140,4 @@ const cartSubTotal = function() {
 // .....
 // Initialize the data list on load
 // ....
-const cachedProductList = [];
 getProductList(); 

@@ -144,12 +144,12 @@ const runAddToCart = function(e) {
 const removeFromCart = function(e) {
     e.preventDefault();
     const productId = e.target.id;
-    const cartQty = Number(e.target.val);
+    const cartQty = Number(e.target.value);
     console.log('productId = ',productId);
     console.log('cart qty = ', cartQty);
     const productData = cachedProductList.find(prod => prod.id == productId);
-    productData.cart_quantity += qty;
-    productData.stock_quantity -= qty;
+    productData.cart_quantity -= cartQty;
+    productData.stock_quantity += cartQty;
     $.post(`/api/productList/${productData.product_name}`, productData)
         .then((updatedProduct) => {
             console.log(updatedProduct);

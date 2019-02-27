@@ -69,7 +69,7 @@ const renderProductList = function(productList) {
 const renderCartList = function(cartList) {
     $('.cartList').empty();
     cartList.forEach(row => {
-        $('.cartBody').append(`
+        $('.cartList').append(`
         <tr>
         <th scope="row">${row.product_name}</th>
         <td>${row.price}</td>
@@ -136,7 +136,7 @@ const runAddToCart = function(e) {
         })
     } 
     else { 
-        failureAlert('Try requesting a smaller quantity');
+        failureAlert('asked for too much');
     }
     
 };
@@ -153,7 +153,7 @@ const removeFromCart = function(e) {
     $.post(`/api/productList/${productData.product_name}`, productData)
         .then((updatedProduct) => {
             console.log(updatedProduct);
-            successAlert('Added to your cart!');
+            successAlert('Removed from your cart!');
             getProductList();
             getCartList();
     });

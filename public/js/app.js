@@ -38,9 +38,9 @@ const renderProductList = function(productList) {
         <td>
         <div class="form-row">
         <div class="col-2">
-        <input type="text" id="i${product.product_name}" class="form-control" placeholder="Qty">
+        <input type="text" id="i${product.id}" class="form-control" placeholder="Qty">
         </div>
-        <button type="submit" id="${product.product_name}"class="btn btn-primary add">Add</button>
+        <button type="submit" id="${product.id}"class="btn btn-primary add">Add</button>
         </div>
         </td>
         </tr>

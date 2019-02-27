@@ -144,11 +144,7 @@ const runAddToCart = function(e) {
 const removeFromCart = function(e) {
     e.preventDefault();
     const productId = e.target.id;
-    console.log('get value by target ', e.target.value)
-    console.log('attribute direct', document.getElementById('productId').getAttribute('value'))
     const cartQty = Number(e.target.value);
-    console.log('productId = ',productId);
-    console.log('cart qty = ', cartQty);
     const productData = cachedProductList.find(prod => prod.id == productId);
     productData.cart_quantity -= cartQty;
     productData.stock_quantity += cartQty;

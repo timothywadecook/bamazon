@@ -36,7 +36,7 @@ module.exports = function(app) {
 
 
     // UPDATE A PRODUCT
-    app.put('/api/productlist/:name', function(req, res) { // check qty, then update qty if can, then 
+    app.post('/api/productlist/:name', function(req, res) { // check qty, then update qty if can, then 
         const productName= req.params.name;
         const updateReq = req.body; // update request format: {entire product row}
         db.Product.update(

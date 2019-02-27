@@ -123,7 +123,7 @@ const runAddToCart = function(e) {
         productData.cart_quantity += qty;
         productData.stock_quantity -= qty;
         // then post this new productData to the db and then call getProductList again.
-        $.put(`/api/productList/${productData.product_name}`, productData)
+        $.post(`/api/productList/${productData.product_name}`, productData)
         .then((updatedProduct) => {
             console.log(updatedProduct);
             successAlert('Added to your cart!');

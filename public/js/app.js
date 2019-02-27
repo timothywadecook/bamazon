@@ -114,10 +114,12 @@ const runAddToCart = function(e) {
     e.preventDefault();
     const productId = e.target.id;
     const qty = $(`#i${productId}`).val(); // store input field
-    $(`#i${productId}`).val(''); // empty input field
-    const productData = cachedProductList.find(prod => prod.id === productId);
+    const productData = cachedProductList.find(prod => prod.id === productId); // next wrap this here
+    console.log('qty = ',qty);
+    console.log('product id = ',productId);
     console.log('productData should be object =', productData);
     console.log('stock quanity should be number = ',productData.stock_quantity)
+    $(`#i${productId}`).val(''); // empty input field
     const stockQty = productData.stock_quantity;
     if (qty <= stockQty) { // if enough stock add to cart then remove from stock 
         productData.cart_quantity += qty;

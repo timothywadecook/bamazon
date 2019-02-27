@@ -76,7 +76,7 @@ const renderCartList = function(cartList) {
         <td>${row.cart_quantity}</td>
         <td>
         </div>
-        <button type="submit" val="${row.cart_quantity}" id="${row.id}"class="btn btn-primary remove">Remove</button>
+        <button type="submit" value="${row.cart_quantity}" id="${row.id}"class="btn btn-primary remove">Remove</button>
         </div>
         </td>
         </tr>

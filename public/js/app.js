@@ -71,10 +71,14 @@ const renderCartList = function(cartList) {
     cartList.forEach(row => {
         $('.cartBody').append(`
         <tr>
-        <th scope="row">${product.product_name}</th>
-        <td>${product.price}</td>
-        <td>${product.cart_quantity}</td>
-        <td>${removebutton}</td>
+        <th scope="row">${row.product_name}</th>
+        <td>${row.price}</td>
+        <td>${row.cart_quantity}</td>
+        <td>
+        </div>
+        <button type="submit" val="${row.cart_quantity}" id="${row.id}"class="btn btn-primary remove">Remove</button>
+        </div>
+        </td>
         </tr>
         `);
     })
@@ -99,7 +103,7 @@ $.get('/api/productList')
 const getCartList = function(){
     $.get('/api/cart')
     .then(function (cartList){
-        console.log(cartList);
+        console.log('actual cart list being rendered = ',cartList);
         cachedCartList = cartList;
         renderCartList(cartList);
 })
@@ -135,30 +139,39 @@ const runAddToCart = function(e) {
         failureAlert('Try requesting a smaller quantity');
     }
     
-
-
-    // get the product data .then check/update it 
-    $.get(`/api/:${product}`)
-    .then(function (productData){
-        console.log(productData);
-        // check and change 
-
-        // render just this one 
-    })
 };
 
+const removeFromCart = function(e) {
+    e.preventDefault();
+    const productId = e.target.id;
+    const cartQty = Number(e.target.val);
+    console.log('productId = ',productId);
+    console.log('cart qty = ', cartQty);
+    const productData = cachedProductList.find(prod => prod.id == productId);
+    productData.cart_quantity += qty;
+    productData.stock_quantity -= qty;
+    $.post(`/api/productList/${productData.product_name}`, productData)
+        .then((updatedProduct) => {
+            console.log(updatedProduct);
+            successAlert('Added to your cart!');
+            getProductList();
+            getCartList();
+    });
 
+}
 
 // .....
 // Add event listeners
 // ....
   
-  // All add-to-cart button... onClick => runAddToCart()
-  $('.productList').on('click', '.add', runAddToCart);
-  // view cart button... onClick => productList.hide(), cart.show()
-  $('#cartBtn').on('click', viewCart)
-  // shop button... onClick => productList.show(),  cart.hide()
-  $('#shopBtn').on('click', viewShop)
+// All add-to-cart button... onClick => runAddToCart()
+$('.productList').on('click', '.add', runAddToCart);
+// All add-to-cart button... onClick => runAddToCart()
+$('.cartList').on('click', '.remove', removeFromCart);
+// view cart button... onClick => productList.hide(), cart.show()
+$('#cartBtn').on('click', viewCart)
+// shop button... onClick => productList.show(),  cart.hide()
+$('#shopBtn').on('click', viewShop)
 
 
 

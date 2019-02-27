@@ -114,7 +114,8 @@ const runAddToCart = function(e) {
     e.preventDefault();
     const productId = e.target.id;
     const qty = $(`#i${productId}`).val(); // store input field
-    const productData = cachedProductList.find(prod => prod.id === productId); // next wrap this here
+    const productData = cachedProductList.find(prod => {prod.id === productId}); // next wrap this here
+    console.log('just check cachedProductList exist..',cachedProductList);
     console.log('qty = ',qty);
     console.log('product id = ',productId);
     console.log('productData should be object =', productData);

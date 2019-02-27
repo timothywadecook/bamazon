@@ -20,6 +20,24 @@ const viewCart = function() {
     $('#cartBtn').addClass('active')
 };
 let cachedProductList = [];
+let cachedCartList = [];
+
+const successAlert = function(action) {
+    $('.main').prepend( `<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Holy guacamole!</strong> You just ${action}.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>`);
+};
+const failureAlert = function(action) {
+    $('.main').prepend( `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Oops!</strong> You just ${action}.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>`);
+};
 
 
 // .....
@@ -37,7 +55,7 @@ const renderProductList = function(productList) {
         <td>${product.stock_quantity}</td>
         <td>
         <div class="form-row">
-        <div class="col-2">
+        <div class="col-3">
         <input type="text" id="i${product.id}" class="form-control" placeholder="Qty">
         </div>
         <button type="submit" id="${product.id}"class="btn btn-primary add">Add</button>
@@ -48,7 +66,7 @@ const renderProductList = function(productList) {
     })
 };
 
-const renderCart = function(cartList) {
+const renderCartList = function(cartList) {
     $('.cartList').empty();
     cartList.forEach(row => {
         $('.cartBody').append(`
@@ -78,6 +96,16 @@ $.get('/api/productList')
 })
 };
 
+const getCartList = function(){
+    $.get('/api/cart')
+    .then(function (cartList){
+        console.log(cartList);
+        cachedCartList = cartList;
+        renderCartList(cartList);
+})
+};
+
+
 // when add to cart is clicked
 // prevent default
 // store the request number in a variable called qty
@@ -85,9 +113,30 @@ $.get('/api/productList')
 const runAddToCart = function(e) {
     e.preventDefault();
     const productId = e.target.id;
-    const qty = $(`#i${productId}`).val();
-    console.log('does qty work?', qty + "\n\n");
-    console.log('does this work? = ',this.stock_quantity);
+    const qty = $(`#i${productId}`).val(); // store input field
+    $(`#i${productId}`).val(''); // empty input field
+    // check quantity by checking against cachedProductList 
+    // find the stock_quantity for the product with this product id
+    const productData = cachedProductList.find(prod => prod.id === productId);
+    const stockQty = productData.stock_quantity;
+    if (qty <= stockQty) { // if enough stock add to cart then remove from stock 
+        productData.cart_quantity += qty;
+        productData.stock_quantity -= qty;
+        // then post this new productData to the db and then call getProductList again.
+        $.put(`/api/productList/${productData.product_name}`, productData)
+        .then((updatedProduct) => {
+            console.log(updatedProduct);
+            successAlert('Added to your cart!');
+            getProductList();
+            getCartList();
+        })
+    } 
+    else { 
+        failureAlert('Try requesting a smaller quantity');
+    }
+    
+
+
     // get the product data .then check/update it 
     $.get(`/api/:${product}`)
     .then(function (productData){
@@ -114,30 +163,9 @@ const runAddToCart = function(e) {
 
 
 
-// .....
-// A few functions that may be useful
-// ....
-
-const checkStockQty = function(qty) { // takes in a qty and returns true if product qty is >= requested qty
-    return qty <= this.stock_quantity;
-};
-const addQtyToCart = function(qty) { // takes a qty and 
-        this.stock_quantity -= qty;
-        this.cart_quantity += qty;
-};
-const checkCartQty = function(qty) {
-    return qty <= this.cart_quantity;
-};
-const removeQtyFromCart = function(qty) {
-    this.stock_quanity += qty;
-    this.cart_quantity -= qty;
-};
-const cartSubTotal = function() {
-    return this.cart_quantity * this.price;
-};
-
 
 // .....
 // Initialize the data list on load
 // ....
 getProductList(); 
+getCartList();

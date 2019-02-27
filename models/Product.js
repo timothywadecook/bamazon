@@ -20,7 +20,7 @@ module.exports = function(connection, Sequelize) {
 
         cart_quantity: {
             type: Sequelize.INTEGER,
-            allowNull: true
+            allowNull: false
         },
     });
 

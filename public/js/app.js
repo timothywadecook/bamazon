@@ -115,9 +115,9 @@ const runAddToCart = function(e) {
     const productId = e.target.id;
     const qty = $(`#i${productId}`).val(); // store input field
     $(`#i${productId}`).val(''); // empty input field
-    // check quantity by checking against cachedProductList 
-    // find the stock_quantity for the product with this product id
     const productData = cachedProductList.find(prod => prod.id === productId);
+    console.log('productData should be object =', productData);
+    console.log('stock quanity should be number = ',productData.stock_quantity)
     const stockQty = productData.stock_quantity;
     if (qty <= stockQty) { // if enough stock add to cart then remove from stock 
         productData.cart_quantity += qty;

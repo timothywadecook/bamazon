@@ -1,5 +1,7 @@
-// Import our db models
+// Import our db models and dependencies
 const db = require('../models');
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 module.exports = function(app) {
 
@@ -14,7 +16,7 @@ module.exports = function(app) {
         });
     });
 
-    const Op = Sequelize.Op;
+   
     // GET CART LIST
     app.get('/api/cart', function(req, res) { // get rows that have value greater than zero in shopping cart 
         db.Product.findAll({
